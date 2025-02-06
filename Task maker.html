@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Maker</title>
+    <style>
+        /* Add some basic styling for tasks */
+        .task {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .task.important {
+            background-color: yellow;
+        }
+        .task.pinned {
+            background-color: lightblue;
+        }
+        .subtask {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task Maker</h1>
+    <div>
+        <input type="text" id="taskInput" placeholder="New Task">
+        <input type="text" id="categoryInput" placeholder="Category">
+        <input type="date" id="deadlineInput">
+        <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <div id="tasks"></div>
+
+    <script>
+        function addTask() {
+            const taskText = document.getElementById("taskInput").value;
+            const category = document.getElementById("categoryInput").value;
+            const deadline = document.getElementById("deadlineInput").value;
+            
+            const taskId = Date.now(); // Unique ID based on current timestamp
+            const newTask = {
+                id: taskId,
+                text: taskText,
+                category: category,
+                deadline: deadline,
+                important: false,
+                pinned: false,
+                completed: false,
+                subtasks: []
+            };
+
+            saveTask(newTask);
+            displayTask(newTask);
+        }
+
+        function displayTask(task) {
+            const tasksDiv = document.getElementById("tasks");
+
+            const taskDiv = document.createElement("div");
+            taskDiv.classList.add("task");
+            taskDiv.setAttribute("data-id", task.id);
+
+            const taskNumber = document.createElement("span");
+            taskNumber.textContent = `Task #${task.id}`;
+
+            const taskLabel = document.createElement("label");
+            taskLabel.textContent = task.text;
+
+            const deadlineBox = document.createElement("span");
+            deadlineBox.textContent = `Deadline: ${task.deadline}`;
+
+            const subtaskList = document.createElement("div");
+            subtaskList.className = "subtasks";
+
+            const importantButton = document.createElement("button");
+            importantButton.textContent = task.important ? "Unmark Important" : "Mark as Important";
+            importantButton.onclick = function () {
+                toggleImportant(task.id, !task.important);
+            };
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.onclick = function () {
+                deleteTask(task.id);
+                taskDiv.remove();
+            };
+
+            const pinButton = document.createElement("button");
+            pinButton.textContent = task.pinned ? "Unpin" : "Pin";
+            pinButton.onclick = function () {
+                togglePin(task.id, !task.pinned);
+            };
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.onclick = function () {
+                editTask(task.id, task.text, task.category, task.deadline, task.important, task.pinned);
+            };
+
+            taskDiv.appendChild(taskNumber);
+            taskDiv.appendChild(taskLabel);
+            taskDiv.appendChild(deadlineBox);
+            taskDiv.appendChild(subtaskList);
+            taskDiv.appendChild(importantButton);
+            taskDiv.appendChild(deleteButton);
+            taskDiv.appendChild(pinButton);
+            taskDiv.appendChild(editButton);
+
+            tasksDiv.appendChild(taskDiv);
+        }
+
+        function saveTask(task) {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.push(task);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function toggleImportant(taskId, important) {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            const task = tasks.find(task => task.id === taskId);
+            if (task) {
+                task.important = important;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                const taskDiv = document.querySelector(`div.task[data-id='${taskId}']`);
+                if (taskDiv) {
+                    taskDiv.classList.toggle("important", important);
+                }
+            }
+        }
+
+        function togglePin(taskId, pinned) {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            const task = tasks.find(task => task.id === taskId);
+            if (task) {
+                task.pinned = pinned;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                const taskDiv = document.querySelector(`div.task[data-id='${taskId}']`);
+                if (taskDiv) {
+                    taskDiv.classList.toggle("pinned", pinned);
+                    const tasksDiv = document.getElementById("tasks");
+                    tasksDiv.prepend(taskDiv); // Move pinned task to the top
+                }
+            }
+        }
+
+        function deleteTask(taskId) {
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks = tasks.filter(task => task.id !== taskId);
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+        function editTask(taskId, taskText, category, deadline, important, pinned) {
+            const taskInput = document.getElementById("taskInput");
+            const categoryInput = document.getElementById("categoryInput");
+            const deadlineInput = document.getElementById("deadlineInput");
+            taskInput.value = taskText;
+            categoryInput.value = category;
+            deadlineInput.value = deadline;
+
+            deleteTask(taskId); // This will now delete the old task and allow the user to create a new one
+        }
+    </script>
+</body>
+</html
