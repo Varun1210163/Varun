@@ -1,4 +1,4 @@
-# 🌐 My Website  
+# 🌐 Varun Prasath Website  
 
 Welcome to my website! This is a simple webpage hosted on **GitHub Pages**.  
 ## 📖 About This Project  
