@@ -1,23 +1,13 @@
-# Task Maker
+# 🌐 My Website  
 
-Task Maker is a simple web app that allows users to create, manage, and track their tasks easily. It's designed to help individuals stay organized and improve productivity.
+Welcome to my website! This is a simple webpage hosted on **GitHub Pages**.  
+## 📖 About This Project  
+This is a basic **HTML & CSS** website created by Varun Prasath It includes:  
+- ✅ **Task Maker** – A simple tool to manage tasks  
+- 📝 **Note Taker** – A place for taking down quick notes  
 
-## Features
-- Create new tasks with descriptions.
-- Mark tasks as completed or pending.
-- Edit or delete tasks.
-- View tasks in a simple list format.
-- Responsive design for easy use on mobile and desktop.
-
-## Installation Instructions
-1. Clone the repository:  
-   `git clone https://github.com/yourusername/task-maker.git`
-2. Open the `index.html` file in a browser to start using the app.
-
-## Usage
-1. Add a new task by clicking on the "Add Task" button.
-2. Mark tasks as completed by checking the checkbox next to each task.
-3. Edit or delete tasks using the corresponding buttons.
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details# Task-maker
+## 📁 Project Structure  
+- **index.html** – The main webpage  
+- **task-maker.html** – A page for managing tasks  
+- **note-taker.html** – A page for taking notes    
+- **README.md** – Project details and instructions  
