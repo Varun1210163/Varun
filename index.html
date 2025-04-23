@@ -18,9 +18,9 @@
   <style>
     /* Root Variables with Ultra-Vibrant Colors */
     :root {
-      --primary-color: #FF2D95;
-      --secondary-color: #2DFEFF;
-      --accent-color: #FFDA2D;
+      --primary-color: #FF2D95;     /* Vibrant Magenta */
+      --secondary-color: #2DFEFF;   /* Vibrant Cyan */
+      --accent-color: #FFDA2D;      /* Vibrant Yellow */
       --bg-dark: #1a1a1a;
       --bg-darker: #121212;
       --text-light: #ffffff;
@@ -28,6 +28,12 @@
       --transition-speed: 0.5s;
       --shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
       --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      --text-pop-color: var(--accent-color);
+    }
+    [data-theme='light'] {
+      --bg-dark: #f5f5f5;
+      --bg-darker: #e0e0e0;
+      --text-light: #111111;
     }
     *, *::before, *::after {
       margin: 0;
@@ -42,6 +48,7 @@
       overflow-x: hidden;
       animation: fadeIn 2s ease-out;
       line-height: 1.6;
+      transition: background var(--transition-speed), color var(--transition-speed);
     }
     header {
       background: var(--primary-color);
@@ -53,13 +60,18 @@
       z-index: 1100;
       box-shadow: var(--shadow);
       animation: slideDown 1s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     nav ul {
       display: flex;
       justify-content: center;
       list-style: none;
     }
-    nav li { margin: 0 1rem; }
+    nav li {
+      margin: 0 1rem;
+    }
     nav a {
       color: var(--text-light);
       text-decoration: none;
@@ -67,11 +79,41 @@
       border-radius: var(--border-radius);
       transition: background-color var(--transition-speed);
     }
-    nav a:hover { background-color: var(--accent-color); }
-    main { position: relative; z-index: 2; }
-    section { padding: 4rem 2rem; min-height: 80vh; transition: background-color var(--transition-speed), color var(--transition-speed); position: relative; overflow: hidden; }
-    section:nth-of-type(even) { background-color: var(--secondary-color); color: var(--text-light); }
-    h1, h2, h3, p { margin: 1rem 0; animation: fadeIn 1.5s; }
+    nav a:hover {
+      background-color: var(--accent-color);
+    }
+    #theme-toggle {
+      background: none;
+      border: 2px solid var(--text-light);
+      color: var(--text-light);
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background var(--transition-speed), color var(--transition-speed);
+    }
+    #theme-toggle:hover {
+      background: var(--accent-color);
+      color: var(--bg-dark);
+    }
+    main {
+      position: relative;
+      z-index: 2;
+    }
+    section {
+      padding: 4rem 2rem;
+      min-height: 80vh;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      position: relative;
+      overflow: hidden;
+    }
+    section:nth-of-type(even) {
+      background-color: var(--secondary-color);
+      color: var(--text-light);
+    }
+    h1, h2, h3, p {
+      margin: 1rem 0;
+      animation: fadeIn 1.5s;
+    }
     /* HERO SECTION WITH MULTI-LAYER EFFECTS */
     .hero {
       background: var(--gradient);
@@ -83,51 +125,128 @@
       overflow: hidden;
       padding-top: 4rem;
     }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); } to { transform: translateY(0); }
+    }
     /* WebGL Shader Canvas Background */
-    #webgl-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.6; }
+    #webgl-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.6;
+    }
     /* SVG Overlay: Pulsating Neon Shapes */
-    .svg-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-    .svg-overlay svg { position: absolute; fill: none; stroke: var(--accent-color); stroke-width: 2; opacity: 0.7; animation: pulse 4s infinite; }
+    .svg-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .svg-overlay svg {
+      position: absolute;
+      fill: none;
+      stroke: var(--accent-color);
+      stroke-width: 2;
+      opacity: 0.7;
+      animation: pulse 4s infinite;
+    }
     .circle1 { top: 10%; left: 20%; width: 80px; height: 80px; }
     .circle2 { top: 60%; left: 70%; width: 100px; height: 100px; }
     .line1 { top: 40%; left: 10%; width: 200px; height: 200px; }
-    @keyframes pulse { 0% { opacity: 0.6; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0.6; transform: scale(0.95); } }
+    @keyframes pulse {
+      0% { opacity: 0.6; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.6; transform: scale(0.95); }
+    }
     /* Holographic Flicker Text Effect */
-    .holo-text { animation: flicker 3s infinite; text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color); }
-    @keyframes flicker { 0%,19%,21%,23%,25%,54%,56%,100% { opacity:1; } 20%,24%,55% { opacity:0.4; } }
-    .hero h2 { font-size: 3rem; margin-bottom: 2rem; animation: textPop 2s infinite alternate; }
-    @keyframes textPop { from { transform: scale(1); } to { transform: scale(1.1); color: var(--accent-color); } }
+    .holo-text {
+      animation: flicker 3s infinite;
+      text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+    }
+    @keyframes flicker {
+      0%,19%,21%,23%,25%,54%,56%,100% { opacity: 1; }
+      20%,24%,55% { opacity: 0.4; }
+    }
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      animation: textPop 2s infinite alternate;
+    }
+    @keyframes textPop {
+      from { transform: scale(1); } to { transform: scale(1.1); color: var(--text-pop-color); }
+    }
     /* ROTATING CUBE IN HERO */
-    #cube-container { width: 120px; height: 120px; margin: 0 auto 2rem; perspective: 600px; position: relative; z-index: 2; }
-    .cube { width: 120px; height: 120px; position: relative; transform-style: preserve-3d; animation: rotateCube 12s infinite linear; }
-    .cube div { position: absolute; width: 120px; height: 120px; border: 2px solid var(--primary-color); border-radius: var(--border-radius); box-shadow: inset 0 0 10px rgba(0,0,0,0.7); background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
-    .face-front { transform: translateZ(60px); }
-    .face-back { transform: rotateY(180deg) translateZ(60px); }
-    .face-right { transform: rotateY(90deg) translateZ(60px); }
-    .face-left { transform: rotateY(-90deg) translateZ(60px); }
-    .face-top { transform: rotateX(90deg) translateZ(60px); }
+    #cube-container {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2rem;
+      perspective: 600px;
+      position: relative;
+      z-index: 2;
+    }
+    .cube {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotateCube 12s infinite linear;
+    }
+    .cube div {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    }
+    .face-front  { transform: translateZ(60px); }
+    .face-back   { transform: rotateY(180deg) translateZ(60px); }
+    .face-right  { transform: rotateY(90deg) translateZ(60px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(60px); }
+    .face-top    { transform: rotateX(90deg) translateZ(60px); }
     .face-bottom { transform: rotateX(-90deg) translateZ(60px); }
-    @keyframes rotateCube { 0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); } 25% { transform: rotateX(90deg) rotateY(45deg) rotateZ(15deg); } 50% { transform: rotateX(180deg) rotateY(90deg) rotateZ(30deg); } 75% { transform: rotateX(270deg) rotateY(135deg) rotateZ(45deg); } 100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(60deg); } }
+    @keyframes rotateCube {
+      0%   { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+      25%  { transform: rotateX(90deg) rotateY(45deg) rotateZ(15deg); }
+      50%  { transform: rotateX(180deg) rotateY(90deg) rotateZ(30deg); }
+      75%  { transform: rotateX(270deg) rotateY(135deg) rotateZ(45deg); }
+      100% { transform: rotateX(360deg) rotateY(180deg) rotateZ(60deg); }
+    }
+    /* Scroll Animations */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .visible { opacity: 1; transform: translateY(0); }
     /* Projects Grid */
     .projects { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 1.5rem; }
     .card { background: var(--bg-darker); padding: 1.5rem; border-radius: var(--border-radius); box-shadow: var(--shadow); transition: transform var(--transition-speed); }
-    .card:hover { transform: translateY(-5px); }
+    .card:hover { transform: translateY(-5px) rotateX(5deg); }
     .card h3 { margin-bottom: 0.5rem; }
-    .button { display: inline-block; margin-top: 1rem; padding: 0.6rem 1.2rem; border-radius: var(--border-radius); text-decoration: none; transition: background var(--transition-speed); }
-    .btn-primary { background: var(--primary-color); color: var(--text-light); }
-    .btn-primary:hover { background: var(--accent-color); }
-    /* Download Section */
+    .btn { display: inline-block; margin-top: 1rem; padding: 0.6rem 1.2rem; border-radius: var(--border-radius); text-decoration: none; border: 2px solid var(--primary-color); transition: background var(--transition-speed), color var(--transition-speed); }
+    .btn:hover { background: var(--primary-color); color: var(--text-light); }
+    /* Downloads Section */
     .downloads { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-    .download-item { background: var(--bg-darker); padding: 1rem; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center; width: 180px; }
-    .download-item a { text-decoration: none; color: var(--text-light); }
-    .download-item:hover { background: var(--accent-color); }
+    .download-card { background: var(--bg-darker); padding: 1rem; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center; width: 200px; transition: transform var(--transition-speed); }
+    .download-card:hover { transform: translateY(-5px) rotateX(5deg); }
+    .download-btn { display: inline-block; margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--accent-color); color: var(--bg-dark); border: none; border-radius: var(--border-radius); cursor: pointer; transition: background var(--transition-speed); }
+    .download-btn:hover { background: var(--primary-color); }
+    /* Back to Top Button */
+    #back-to-top { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.8rem; border: none; border-radius: 50%; background: var(--primary-color); color: var(--text-light); cursor: pointer; display: none; box-shadow: var(--shadow); }
     /* Mobile Optimizations */
-    @media (max-width: 768px) {
-      .hero h2 { font-size: 2rem; }
-      #cube-container { width: 80px; height: 80px; }
-      .cube, .cube div { width: 80px; height: 80px; }
-      .face-front, .face-back, .face-right, .face-left, .face-top, .face-bottom { transform: translateZ(40px); }
-    }
+    @media (max-width: 768px) { section { padding: 2rem 1rem; } .hero h2 { font-size: 2rem; } #cube-container { width: 80px; height: 80px; } .cube, .cube div { width: 80px; height: 80px; } }
   </style>
 </head>
 <body>
@@ -140,25 +259,22 @@
     <h1 class="holo-text">Ultra Advanced Website</h1>
     <nav aria-label="Primary Navigation">
       <ul>
-        <li><a href="#home" title="Home">Home</a></li>
-        <li><a href="#about" title="About">About</a></li>
-        <li><a href="#projects" title="Projects">Projects</a></li>
-        <li><a href="#downloads" title="Downloads">Downloads</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#downloads">Downloads</a></li>
       </ul>
     </nav>
+    <button id="theme-toggle">Light Mode</button>
   </header>
   <main role="main">
-    <!-- HERO SECTION WITH MULTI-LAYER EFFECTS -->
     <section id="home" class="hero" aria-label="Hero Section">
-      <!-- WebGL Shader Background -->
       <canvas id="webgl-canvas"></canvas>
-      <!-- SVG Overlay for Neon Shapes -->
       <div class="svg-overlay" aria-hidden="true">
-        <svg class="circle1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" /></svg>
-        <svg class="circle2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" /></svg>
-        <svg class="line1" viewBox="0 0 200 200"><line x1="0" y1="0" x2="200" y2="200" /></svg>
+        <svg class="circle1" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/></svg>
+        <svg class="circle2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/></svg>
+        <svg class="line1" viewBox="0 0 200 200"><line x1="0" y1="0" x2="200" y2="200"/></svg>
       </div>
-      <!-- Rotating Cube -->
       <div id="cube-container" aria-label="3D Rotating Cube">
         <div class="cube">
           <div class="face-front"></div>
@@ -170,44 +286,105 @@
         </div>
       </div>
       <h2 class="holo-text">Welcome to My Ultra Advanced Website!</h2>
-      <p>If you win the love, you win the life. If you lose the love, you win the world.<br>- William Shakespeare</p>
+      <p>If you win the love, you win the life.<br>If you lose the love, you win the world.</p>
     </section>
-    <!-- ABOUT SECTION -->
-    <section id="about" aria-label="About">
+
+    <section id="about" class="fade-up" aria-label="About">
       <h2>About</h2>
       <p><strong>This website is created by Varun Prasath, a 15-year-old student genius and an ultra legend.</strong></p>
     </section>
-    <!-- PROJECTS SECTION -->
-    <section id="projects" aria-label="Projects">
+
+    <section id="projects" class="fade-up" aria-label="Projects">
       <h2>Projects</h2>
       <div class="projects">
         <div class="card">
           <h3>Music Player</h3>
-          <p>A web-based audio player with playlist support, custom controls, and responsive UI.</p>
-          <a class="button btn-primary" href="https://varun1210163.github.io/player" target="_blank">Visit</a>
+          <p>Web-based audio player with playlist support, custom controls, and responsive UI.</p>
+          <a class="btn" href="https://varun1210163.github.io/player" target="_blank">Visit</a>
         </div>
         <div class="card">
-          <h3>APK & PNG Hub</h3>
-          <p>Download my latest Android app and view design assets below.</p>
-          <a class="button btn-primary" href="#downloads">Go to Downloads</a>
+          <h3>APK Hub</h3>
+          <p>Download my Android apps below.</p>
+          <a class="btn" href="#downloads">Go to Downloads</a>
         </div>
         <div class="card">
           <h3>Project 3 (Coming Soon)</h3>
-          <p>Stay tuned for more exciting projects featuring WebGL and AI integrations.</p>
+          <p>Stay tuned for more WebGL & AI integrations!</p>
         </div>
       </div>
     </section>
-    <!-- DOWNLOADS SECTION -->
-    <section id="downloads" aria-label="Downloads">
-      <h2>Downloads</h2>
-      <div> class="downloads">
-        <div> class="download-item">
-          <h4>MyApp.apk</h4>
-          <p>Android APK</p>
-          <a href="myapp.apk" download>Download APK</a>
+
+    <section id="downloads" class="fade-up" aria-label="Downloads">
+      <h2>APK Downloads</h2>
+      <div class="downloads">
+        <div class="download-card">
+          <h4>MyApp v1.0</h4>
+          <p>Size: 5.2 MB</p>
+          <button class="download-btn" onclick="window.location='myapp_v1.0.apk'">Download v1.0</button>
+        </div>
+        <div class="download-card">
+          <h4>MyApp Beta v1.1</n4>
+          <p>Size: 6.1 MB</p>
+          <button class="download-btn" onclick="window.location='myapp_v1.1.apk'">Download v1.1</button>
         </div>
       </div>
     </section>
   </main>
+
+  <button id="back-to-top">↑</button>
+
+  <script>
+    // Theme Toggle with persistence
+    const themeToggle = document.getElementById('theme-toggle');
+    const saved = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', saved);
+    themeToggle.textContent = saved === 'light' ? 'Dark Mode' : 'Light Mode';
+    themeToggle.onclick = () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.textContent = next === 'light' ? 'Dark Mode' : 'Light Mode';
+    };
+
+    // Scroll Animations & Back-to-Top button
+    const faders = document.querySelectorAll('.fade-up');
+    const backBtn = document.getElementById('back-to-top');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+    }, { threshold: 0.2 });
+    faders.forEach(f => observer.observe(f));
+    window.addEventListener('scroll', () => {
+      backBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+    });
+    backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Toast Notification on APK Download
+    document.querySelectorAll('.download-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const toast = document.createElement('div');
+        toast.textContent = 'Download starting...';
+        toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#fff;padding:0.8rem 1.2rem;border-radius:5px;opacity:0;transition:opacity 0.5s';
+        document.body.appendChild(toast);
+        requestAnimationFrame(() => toast.style.opacity = 1);
+        setTimeout(() => toast.style.opacity = 0, 2000);
+        setTimeout(() => document.body.removeChild(toast), 2600);
+      });
+    });
+
+    // Basic WebGL Shader Init (stub)
+    const canvas = document.getElementById('webgl-canvas');
+    const gl = canvas.getContext('webgl');
+    if (gl) {
+      let t = 0;
+      function render() {
+        t += 0.01;
+        gl.clearColor(Math.sin(t)*0.5+0.5, Math.cos(t)*0.5+0.5, 0.5, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        requestAnimationFrame(render);
+      }
+      render();
+    }
+  </script>
 </body>
 </html>
